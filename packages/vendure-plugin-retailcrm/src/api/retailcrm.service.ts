@@ -51,7 +51,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
   }
 
   async createOrder(event: OrderStateTransitionEvent): Promise<void> {
-//    console.log(JSON.stringify(event.order.lines, null, 4));
+    //    console.log(JSON.stringify(event.order.lines, null, 4));
     try {
       const custSearchResponse = await fetch(
         `https://${
@@ -86,13 +86,18 @@ export class RetailCRMService implements OnApplicationBootstrap {
       }
 
       const productParams = new URLSearchParams();
-      let products: { externalId: string; article:string; name:string; site:string/*, url*/ }[] = [];
+      let products: {
+        externalId: string;
+        article: string;
+        name: string;
+        site: string /*, url*/;
+      }[] = [];
       event.order.lines.forEach((line) => {
         products.push({
           externalId: line.productVariant.id as string,
           site: RetailCRMPlugin.options.shopName,
           article: line.productVariant.sku,
-          name: line.productVariant.name
+          name: line.productVariant.name,
         });
       });
       productParams.append("products", JSON.stringify(products));
@@ -108,7 +113,11 @@ export class RetailCRMService implements OnApplicationBootstrap {
       console.log(productData);
 
       const orderParams = new URLSearchParams();
-      let items: { productName: string; initialPrice: number; externalId: string}[] = [];
+      let items: {
+        productName: string;
+        initialPrice: number;
+        externalId: string;
+      }[] = [];
       event.order.lines.forEach((line) => {
         items.push({
           externalId: line.productVariant.id as string,
@@ -136,7 +145,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         items: items,
       };
       orderParams.append("order", JSON.stringify(order));
-//      console.log(orderParams);
+      //      console.log(orderParams);
       const orderResponse = await fetch(
         `https://${RetailCRMPlugin.options.accountName}.retailcrm.ru/api/v5/orders/create?apiKey=${RetailCRMPlugin.options.apiKey}`,
         {
@@ -145,7 +154,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         }
       );
       const orderData = await orderResponse.json();
-//      console.log(orderData);
+      //      console.log(orderData);
 
       Logger.info(`Successfully created order`, loggerCtx);
     } catch (e) {
