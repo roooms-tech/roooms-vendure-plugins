@@ -1,0 +1,21 @@
+{
+  "name": "roooms-vendure-plugins",
+  "private": true,
+  "keywords": [
+    "vendure",
+    "vendure-plugins",
+    "vendure-packges"
+  ],
+  "scripts": {
+    "build": "yarn && yarn prettier:write && yarn lerna exec yarn && yarn lerna run build",
+    "test": "yarn lerna run test",
+    "lerna:publish": "yarn && yarn lerna exec yarn && yarn lerna run build && yarn lerna publish",
+    "prettier:write": "prettier --write .",
+    "upgrade:vendure": "yarn lerna exec \"yarn upgrade --pattern @vendure --latest\""
+  },
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0",
+    "prettier": "^2.5.1"
+  }
+}
