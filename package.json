@@ -1,6 +1,8 @@
 {
   "name": "roooms-vendure-plugins",
-  "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "keywords": [
     "vendure",
     "vendure-plugins",
@@ -19,7 +21,5 @@
     "prettier": "^2.5.1"
   },
   "license": "UNLICENSED",
-  "publishConfig": {
-      "access": "restricted"
-  }
+  "version": "0.0.1"
 }
