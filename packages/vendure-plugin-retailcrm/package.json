@@ -1,6 +1,6 @@
 {
   "name": "vendure-plugin-retailcrm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "RetailCRM integration with Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
   "license": "MIT",
