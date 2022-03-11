@@ -18,7 +18,7 @@
     "prettier": "^2.5.1"
   },
   "license": "UNLICENSED",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@roooms-tech"
   },
