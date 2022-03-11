@@ -100,7 +100,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
           name: line.productVariant.name,
         });
       });
-      productParams.append("products", JSON.stringify(products));
+      productParams.append("products", JSON.stringify(products) );
       console.log(productParams);
       const productResponse = await fetch(
         `https://${RetailCRMPlugin.options.accountName}.retailcrm.ru/api/v5/store/products/batch/edit?apiKey=${RetailCRMPlugin.options.apiKey}`,
