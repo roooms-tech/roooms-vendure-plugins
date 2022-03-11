@@ -2,13 +2,13 @@
   "name": "@roooms-tech/vendure-plugin-retailcrm",
   "repository": {
     "type": "git",
-    "url": "https://github.com/roooms-tech/roooms-vendure-plugins.git",
+    "url": "git@github.com:roooms-tech/roooms-vendure-plugins.git",
     "directory": "packages/vendure-plugin-retailcrm"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "RetailCRM integration with Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
   "license": "MIT",
