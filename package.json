@@ -1,5 +1,5 @@
 {
-  "name": "roooms-vendure-plugins",
+  "name": "@roooms-tech/roooms-vendure-plugins",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
