@@ -1,5 +1,5 @@
 {
-  "name": "vendure-plugin-retailcrm",
+  "name": "@roooms-tech/vendure-plugin-retailcrm",
   "repository": {
     "type": "git",
     "url": "https://github.com/roooms-tech/roooms-vendure-plugins.git",
