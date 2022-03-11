@@ -86,7 +86,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
       }
 
       const productParams = new URLSearchParams();
-      const tmp = 2;
+      const tmp = 3;
       let products: {
         externalId: string;
         article: string;
