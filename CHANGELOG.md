@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.17-beta.0](https://github.com/roooms-tech/roooms-vendure-plugins/compare/v0.0.15...v0.0.17-beta.0) (2022-03-15)
+
+**Note:** Version bump only for package roooms-vendure-plugins
+
+
+
+
+
 ## [0.0.15](https://github.com/roooms-tech/roooms-vendure-plugins/compare/v0.0.14...v0.0.15) (2022-03-11)
 
 **Note:** Version bump only for package roooms-vendure-plugins
