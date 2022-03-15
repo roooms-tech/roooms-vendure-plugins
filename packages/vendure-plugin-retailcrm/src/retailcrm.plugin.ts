@@ -1,5 +1,4 @@
 import { PluginCommonModule, VendurePlugin } from "@vendure/core";
-import path from "path";
 import { RetailCRMPluginOptions } from "./api/retailcrm-plugin-options";
 import { RetailCRMService } from "./api/retailcrm.service";
 

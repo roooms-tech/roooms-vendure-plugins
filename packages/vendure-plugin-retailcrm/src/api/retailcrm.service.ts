@@ -37,7 +37,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         if (event.constructor.name == "OrderStateTransitionEvent") {
           let ev: OrderStateTransitionEvent =
             event as OrderStateTransitionEvent;
-          if (ev.toState == "PaymentAuthorized")
+          if (ev.toState == "PaymentAuthorized") {
             this.createOrder(ev).catch((e) =>
               Logger.error(
                 `Failed to call action for event ${event.constructor.name}`,
@@ -45,6 +45,19 @@ export class RetailCRMService implements OnApplicationBootstrap {
                 e
               )
             );
+          }
+          else {
+              Logger.warn(
+                  `Catch event OrderStateTransitionEvent with state ${ev.toState}`,
+                  loggerCtx,
+              );
+          }
+        }
+        else {
+          Logger.warn(
+              `Catch event ${event.constructor.name}`,
+              loggerCtx,
+          );
         }
       });
     });
