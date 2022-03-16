@@ -115,7 +115,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         });
       });
       productParams.append("products", JSON.stringify(products));
-      console.log(productParams);
+//      console.log(productParams);
       const productResponse = await fetch(
         `https://${RetailCRMPlugin.options.accountName}.retailcrm.ru/api/v5/store/products/batch/edit?apiKey=${RetailCRMPlugin.options.apiKey}`,
         {
@@ -124,7 +124,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         }
       );
       const productData = await productResponse.json();
-      console.log(productData);
+//      console.log(productData);
 
       const orderParams = new URLSearchParams();
       let items: {
@@ -136,7 +136,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         items.push({
           externalId: line.productVariant.id as string,
           productName: line.productVariant.name,
-          initialPrice: line.productVariant.priceWithTax,
+          initialPrice: line.productVariant.priceWithTax / 100,
         });
       });
       let order = {
@@ -151,7 +151,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         },
         payments: [
           {
-            amount: event.order.payments[0].amount,
+            amount: event.order.payments[0].amount / 100,
             type: "bank-card", // XXX to match with event.order.payments[0].method
             status: "not-paid",
           },
