@@ -64,7 +64,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
   }
 
   async createOrder(event: OrderStateTransitionEvent): Promise<void> {
-    //    console.log(JSON.stringify(event.order.lines, null, 4));
+    console.log(JSON.stringify(event.order, null, 6));
     try {
       const custSearchResponse = await fetch(
         `https://${
@@ -152,7 +152,7 @@ export class RetailCRMService implements OnApplicationBootstrap {
         payments: [
           {
             amount: event.order.payments[0].amount / 100,
-            type: "bank-card", // XXX to match with event.order.payments[0].method
+            type: event.order.payments[0].method,
             status: "not-paid",
           },
         ],
