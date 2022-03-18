@@ -8,7 +8,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "RetailCRM integration with Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
   "license": "MIT",

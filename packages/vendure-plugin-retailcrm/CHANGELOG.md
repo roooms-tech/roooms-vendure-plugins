@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.32](https://github.com/roooms-tech/roooms-vendure-plugins/compare/v0.0.31...v0.0.32) (2022-03-18)
+
+**Note:** Version bump only for package @roooms-tech/vendure-plugin-retailcrm
+
+
+
+
+
 ## [0.0.31](https://github.com/roooms-tech/roooms-vendure-plugins/compare/v0.0.30...v0.0.31) (2022-03-16)
 
 **Note:** Version bump only for package @roooms-tech/vendure-plugin-retailcrm
