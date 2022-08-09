@@ -1,18 +1,17 @@
 # Vendure RetailCRM plugin
 
-## vendure-config.ts
+## Configuration
 
 Configure in `vendure-config.ts`.
 
 ```js
-import { RetailCRMPlugin } from 'vendure-plugin-retailcrm';
+import { RetailCRMPlugin } from '@roooms-tech/vendure-plugin-retailcrm';
 
 plugins: [
-  RetailCRMPlugin.init({
-    shopName: 'shop-name',
-    accountName: 'account-name',
-    apiKey: 'api-key',
-    events: [OrderStateTransitionEvent],
-  }),
+    RetailCRMPlugin.init({
+        shopName: '<shop-name>',
+        accountName: '<account-name>',
+        apiKey: '<api-key>',
+    }),
 ];
 ```

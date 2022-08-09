@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prettier": "prettier --ignore-path .gitignore '**/*.{ts,tsx,mjs,js,json,yml}' --write"
+    "prettier": "prettier --ignore-path .gitignore '**/*.{ts,tsx,mjs,js,json,yml,md}' --write"
   },
   "devDependencies": {
     "@changesets/cli": "~2.24.2",
