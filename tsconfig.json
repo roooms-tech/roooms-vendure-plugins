@@ -1,15 +1,45 @@
 {
   "compilerOptions": {
-    "lib": ["es2020"],
-    "module": "commonjs",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    //    "allowSyntheticDefaultImports": true,
+    //    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
-    "strict": true,
-    "sourceMap": false,
+    //    "target": "es2017",
+    //    "strict": true,
+    //    "sourceMap": false,
+    //    "skipLibCheck": true,
+    //    "types": ["node"],
+
+    "target": "es2020",
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "allowJs": false,
+    "downlevelIteration": false,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "noEmit": true,
     "skipLibCheck": true,
-    "types": ["jest", "node"]
-  }
+    "incremental": false,
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+
+    "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "useDefineForClassFields": true
+  },
+  "exclude": ["node_modules"]
 }

@@ -5,13 +5,13 @@
 Configure in `vendure-config.ts`.
 
 ```js
-import { RetailCRMPlugin } from "vendure-plugin-retailcrm";
+import { RetailCRMPlugin } from 'vendure-plugin-retailcrm';
 
 plugins: [
   RetailCRMPlugin.init({
-    shopName: "shop-name",
-    accountName: "account-name",
-    apiKey: "api-key",
+    shopName: 'shop-name',
+    accountName: 'account-name',
+    apiKey: 'api-key',
     events: [OrderStateTransitionEvent],
   }),
 ];

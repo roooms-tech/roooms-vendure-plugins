@@ -1,28 +1,16 @@
 {
   "name": "roooms-vendure-plugins",
+  "version": "0.0.0",
   "private": true,
-  "workspaces": ["packages/*"],
-  "keywords": [
-    "vendure",
-    "vendure-plugins",
-    "vendure-packges"
-  ],
   "scripts": {
-    "build": "yarn && yarn prettier:write && yarn lerna exec yarn && yarn lerna run build",
-    "test": "yarn lerna run test",
-    "lerna:publish": "yarn && yarn lerna exec yarn && yarn lerna run build && yarn lerna publish patch --yes",
-    "prettier:write": "prettier --write .",
-    "upgrade:vendure": "yarn lerna exec \"yarn upgrade --pattern @vendure --latest\""
+    "prettier": "prettier --ignore-path .gitignore '**/*.{ts,tsx,mjs,js,json,yml}' --write"
   },
   "devDependencies": {
-    "husky": "^7.0.4",
-    "lerna": "^4.0.0",
-    "prettier": "^2.5.1"
+    "rimraf": "^3.0.2",
+    "typescript": "~4.7.4",
+    "prettier": "^2.7.1"
   },
-  "license": "UNLICENSED",
-  "version": "0.0.5",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@roooms-tech"
-  },
-  "repository": "https://github.com/roooms-tech/roooms-vendure-plugins.git"
+  "workspaces": [
+    "packages/*"
+  ]
 }
