@@ -1,14 +1,10 @@
 {
   "name": "@roooms-tech/vendure-plugin-retailcrm",
   "version": "0.0.32",
-  "description": "RetailCRM integration with Vendure",
+  "description": "RetailCRM integration for Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "scripts": {
     "build": "rimraf dist && tsc"
   },
@@ -21,11 +17,10 @@
   "config": {
     "vendure": "1.6.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:roooms-tech/roooms-vendure-plugins.git",
-    "directory": "packages/vendure-plugin-retailcrm"
-  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   }

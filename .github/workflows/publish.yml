@@ -1,8 +1,6 @@
 name: Publish
 
 on:
-  #release:
-  #  types: [created]
   push:
     branches: [main]
 
@@ -12,7 +10,6 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-20.04
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,4 +22,4 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           yarn --frozen-lockfile
           yarn workspaces run build
-          yarn lerna publish patch --yes --registry=https://npm.pkg.github.com/ --force-publish
+          yarn changeset publish
