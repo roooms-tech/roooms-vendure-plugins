@@ -1,41 +1,27 @@
 {
   "name": "@roooms-tech/vendure-plugin-retailcrm",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:roooms-tech/roooms-vendure-plugins.git",
-    "directory": "packages/vendure-plugin-retailcrm"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "version": "0.0.32",
-  "description": "RetailCRM integration with Vendure",
+  "version": "1.0.0",
+  "description": "RetailCRM integration for Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
-  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
+  "dependencies": {
+    "got": "^12.3.1"
+  },
+  "devDependencies": {
+    "@vendure/core": "1.6.4"
+  },
+  "config": {
+    "vendure": "1.6.4"
+  },
   "files": [
     "dist",
     "README.md"
   ],
-  "scripts": {
-    "build": "rimraf dist && tsc && copyfiles -u 1 dist/"
-  },
-  "config": {
-    "vendure": "1.4.7"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@vendure/admin-ui": "1.4.7",
-    "@vendure/admin-ui-plugin": "1.4.7",
-    "@vendure/core": "1.4.7",
-    "@vendure/testing": "1.4.7",
-    "@vendure/ui-devkit": "1.4.7",
-    "copyfiles": "^2.4.1",
-    "jest": "^27.0.4",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.3",
-    "ts-node": "^10.0.0",
-    "typescript": "4.3.5"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
