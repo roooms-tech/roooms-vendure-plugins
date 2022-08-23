@@ -1,15 +1,5 @@
 {
   "compilerOptions": {
-    //    "allowSyntheticDefaultImports": true,
-    //    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    //    "target": "es2017",
-    //    "strict": true,
-    //    "sourceMap": false,
-    //    "skipLibCheck": true,
-    //    "types": ["node"],
-
     "target": "es2020",
     "module": "commonjs",
     "lib": ["es2020"],
@@ -17,10 +7,9 @@
     "downlevelIteration": false,
     "importHelpers": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "noEmit": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "incremental": false,
 
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
