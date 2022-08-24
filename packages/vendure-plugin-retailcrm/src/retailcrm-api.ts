@@ -1,4 +1,4 @@
-import got from 'got';
+export const got = Function('return import("got")')() as Promise<typeof import('got')>;
 
 export interface RetailcrmApiOptions {
     shopName: string;
@@ -23,12 +23,14 @@ function isRetailcrmResponse<T extends object>(res: unknown): res is RetailcrmRe
 }
 
 export function initRetailcrmApi(options: RetailcrmApiOptions) {
-    const gotInstance = got.extend({
-        prefixUrl: `https://${options.accountName}.retailcrm.ru/api/v5/`,
-        headers: {
-            'X-API-KEY': options.apiKey,
-        },
-    });
+    const gotInstance = got.then(({ got }) =>
+        got.extend({
+            prefixUrl: `https://${options.accountName}.retailcrm.ru/api/v5/`,
+            headers: {
+                'X-API-KEY': options.apiKey,
+            },
+        }),
+    );
 
     function api<T extends object>({
         url,
@@ -39,17 +41,19 @@ export function initRetailcrmApi(options: RetailcrmApiOptions) {
         method: 'get' | 'post';
         body?: Record<string, any>;
     }): Promise<T> {
-        return gotInstance(url, { method, form: body })
-            .json()
-            .then((res) => {
-                if (isRetailcrmResponse<T>(res)) {
-                    if (res.success) {
-                        return res.data;
+        return gotInstance.then((got) =>
+            got(url, { method, form: body })
+                .json()
+                .then((res) => {
+                    if (isRetailcrmResponse<T>(res)) {
+                        if (res.success) {
+                            return res.data;
+                        }
+                        throw new Error(res.errorMsg);
                     }
-                    throw new Error(res.errorMsg);
-                }
-                throw new Error('Unknown Error');
-            });
+                    throw new Error('Unknown Error');
+                }),
+        );
     }
 
     function getCustomerById(customerId: string): Promise<{}> {

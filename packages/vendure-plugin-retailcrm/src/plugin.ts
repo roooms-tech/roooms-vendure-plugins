@@ -7,8 +7,7 @@ import {
     Logger,
 } from '@vendure/core';
 import { OnApplicationBootstrap } from '@nestjs/common';
-import { HTTPError } from 'got';
-import { initRetailcrmApi, RetailcrmApi, RetailcrmApiOptions } from './retailcrm-api';
+import { initRetailcrmApi, RetailcrmApi, RetailcrmApiOptions, got } from './retailcrm-api';
 
 @VendurePlugin({
     imports: [PluginCommonModule],
@@ -70,7 +69,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         try {
             await this.retailcrmApi.getCustomerById(String(order.customer.id));
         } catch (err) {
-            if (err instanceof HTTPError && err.code === '404') {
+            if (err instanceof (await got).HTTPError && err.code === '404') {
                 // If customer doesn't exist, create a new one
                 await this.retailcrmApi.createCustomer({
                     externalId: String(order.customer.id),
