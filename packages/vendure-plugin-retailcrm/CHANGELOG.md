@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 1.0.3
+
+### Patch Changes
+
+-   cc1e1a8: Add a workaround to import `got` since it's ESM module
+
 ## 1.0.2
 
 ### Patch Changes
