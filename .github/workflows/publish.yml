@@ -5,21 +5,26 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: 16.16
+  NODE_VERSION: 18.13
 
 jobs:
   publish:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: https://npm.pkg.github.com
+          cache: 'pnpm'
       - name: Build and publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn --frozen-lockfile
-          yarn workspaces run build
-          yarn changeset publish
+          pnpm install --frozen-lockfile
+          pnpm run -r build
+          pnpm changeset publish
