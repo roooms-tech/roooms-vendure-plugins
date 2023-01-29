@@ -3,23 +3,23 @@
   "version": "1.0.4",
   "description": "RetailCRM integration for Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
-  "main": "dist/plugin.js",
-  "types": "dist/plugin.d.ts",
+  "main": "lib/plugin.js",
+  "types": "lib/plugin.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc"
+    "build": "rimraf lib && tsc"
   },
   "dependencies": {
-    "got": "^12.3.1"
+    "got": "^12.5.3",
+    "tslib": "~2.5.0"
   },
   "devDependencies": {
-    "@vendure/core": "v2.0.0-next.12"
-  },
-  "config": {
-    "vendure": "v2.0.0-next.12"
+    "@nestjs/common": "^8.4.7",
+    "@vendure/core": "~2.0.0-next.28"
   },
   "files": [
-    "dist",
-    "README.md"
+    "lib",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
