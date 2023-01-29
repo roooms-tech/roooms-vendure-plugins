@@ -15,7 +15,7 @@ jobs:
   publish:
     runs-on: ubuntu-20.04
     env:
-      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
 
@@ -30,10 +30,10 @@ jobs:
           registry-url: https://npm.pkg.github.com
           cache: 'pnpm'
 
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
       - run: pnpm install --frozen-lockfile
       - run: pnpm run -r build
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
         run: pnpm changeset publish
-
