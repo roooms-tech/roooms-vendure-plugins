@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 1.0.5
+
+### Patch Changes
+
+-   Upgrade deps
+
 ## 1.0.4
 
 ### Patch Changes
