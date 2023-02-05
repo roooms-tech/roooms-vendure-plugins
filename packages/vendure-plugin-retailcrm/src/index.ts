@@ -1,0 +1,165 @@
+import {
+    EventBus,
+    Logger,
+    OrderStateTransitionEvent,
+    PluginCommonModule,
+    Type,
+    VendurePlugin,
+} from '@vendure/core';
+import { OnApplicationBootstrap } from '@nestjs/common';
+import { createRetailcrmApi, RetailcrmApiOptions, RetailcrmApi, RetailcrmError } from '@roooms-tech/retailcrm-api';
+
+@VendurePlugin({
+    imports: [PluginCommonModule],
+})
+export class RetailCRMPlugin implements OnApplicationBootstrap {
+    private static options: RetailcrmApiOptions;
+
+    static init(options: RetailcrmApiOptions): Type<RetailCRMPlugin> {
+        this.options = options;
+        return RetailCRMPlugin;
+    }
+
+    private loggerCtx = 'RetailCRMPlugin';
+    private retailcrmApi: RetailcrmApi;
+
+    constructor(private eventBus: EventBus) {
+        if (
+            !RetailCRMPlugin.options ||
+            typeof RetailCRMPlugin.options.accountName !== 'string' ||
+            typeof RetailCRMPlugin.options.apiKey !== 'string'
+        ) {
+            throw new Error(
+                `Please specify accountName and apiKey with RetailCRM.init() in your Vendure config.`,
+            );
+        }
+
+        this.retailcrmApi = createRetailcrmApi(RetailCRMPlugin.options);
+    }
+
+    onApplicationBootstrap(): void {
+        Logger.info(`Setting action for events for RetailCRM integration`, this.loggerCtx);
+
+        this.eventBus
+            .ofType(OrderStateTransitionEvent)
+            .subscribe((event: OrderStateTransitionEvent) => {
+                if (event.toState == 'PaymentSettled' || event.toState == 'PaymentAuthorized') {
+                    this.createOrder(event)
+                        .then(() => {
+                            Logger.info(`Successfully created order`, this.loggerCtx);
+                        })
+                        .catch((err: unknown) => {
+                            Logger.error(`Failed to create order`, this.loggerCtx, String(err));
+                        });
+                } else {
+                    Logger.warn(
+                        `Caught event OrderStateTransitionEvent with state ${event.toState}`,
+                        this.loggerCtx,
+                    );
+                }
+            });
+    }
+
+    private async createOrder({ order }: OrderStateTransitionEvent): Promise<void> {
+        if (!order.customer) {
+            throw new Error('order.customer is undefined!');
+        }
+
+        try {
+            await this.retailcrmApi.Customer(String(order.customer.id));
+        } catch (err) {
+            if (err instanceof RetailcrmError && err.statusCode === 404) {
+                // If customer doesn't exist, create a new one
+                await this.retailcrmApi.CustomerCreate({
+                    externalId: String(order.customer.id),
+                    firstName: order.customer.firstName || '',
+                    lastName: order.customer.lastName || '',
+                    phones: [{ number: order.customer.phoneNumber || '' }],
+                    email: order.customer.emailAddress || '',
+                });
+            } else {
+                throw err;
+            }
+        }
+
+        const { offers } = await this.retailcrmApi.Inventories({
+            limit: 250,
+            filter: {
+                offerExternalId: order.lines.map((line) => line.productVariant.sku),
+                productActive: true,
+                offerActive: true,
+            },
+        });
+
+        const productsToCreate = order.lines.filter(
+            (line) =>
+                offers.findIndex((offer) => offer.externalId === line.productVariant.sku) === -1,
+        );
+
+        const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
+
+        if (productsToCreate.length > 0) {
+            const { sites } = await this.retailcrmApi.Sites();
+            const catalogId = Number(Object.values(sites)[0]?.catalogId);
+
+            const { addedProducts } = await this.retailcrmApi.ProductsBatchCreate(
+                productsToCreate.map((line) => ({
+                    externalId: line.productVariant.product.slug,
+                    name: `[ВРЕМЕННО] ${line.productVariant.sku} / ${line.productVariant.product.name} / ${line.productVariant.name}`,
+                    catalogId,
+                })),
+            );
+
+            const { products } = await this.retailcrmApi.Products({
+                limit: 250,
+                filter: {
+                    ids: addedProducts,
+                },
+            });
+
+            for (const product of products) {
+                const orderLine = productsToCreate.find(
+                    (line) => line.productVariant.product.slug === product.externalId,
+                );
+                if (orderLine) {
+                    createdProductsMap.set(orderLine.productVariant.sku, product.offers[0].id);
+                }
+            }
+        }
+
+        await this.retailcrmApi.OrderCreate({
+            externalId: String(order.code),
+            // status: order.state,
+            shipped: false,
+            customer: { externalId: String(order.customer.id) },
+            items: order.lines.map((line) => ({
+                productName: line.productVariant.name,
+                initialPrice: line.productVariant.price,
+                quantity: line.quantity,
+                offer: createdProductsMap.has(line.productVariant.sku)
+                    ? {
+                          id: createdProductsMap.get(line.productVariant.sku) as number,
+                      }
+                    : {
+                          externalId: line.productVariant.sku,
+                      },
+                comment: order.shippingAddress.streetLine2,
+            })),
+            delivery: {
+                code: order.shippingLines[0]?.shippingMethod?.code as string,
+                address: {
+                    text: order.shippingAddress.streetLine1 || '',
+                },
+            },
+            payments: order.payments[0]
+                ? [
+                      {
+                          amount: order.payments[0].amount / 100,
+                          type: order.payments[0].method,
+                          status: 'not-paid',
+                      },
+                  ]
+                : [],
+        });
+    }
+}
