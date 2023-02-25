@@ -1,13 +1,20 @@
 import {
+    VendurePlugin,
     EventBus,
     Logger,
     OrderStateTransitionEvent,
     PluginCommonModule,
     Type,
-    VendurePlugin,
+    Collection,
+    ProductVariant,
 } from '@vendure/core';
 import { OnApplicationBootstrap } from '@nestjs/common';
-import { createRetailcrmApi, RetailcrmApiOptions, RetailcrmApi, RetailcrmError } from '@roooms-tech/retailcrm-api';
+import {
+    createRetailcrmApi,
+    RetailcrmApiOptions,
+    RetailcrmApi,
+    RetailcrmError,
+} from '@roooms-tech/retailcrm-api';
 
 @VendurePlugin({
     imports: [PluginCommonModule],
@@ -85,7 +92,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         const { offers } = await this.retailcrmApi.Inventories({
             limit: 250,
             filter: {
-                offerExternalId: order.lines.map((line) => line.productVariant.sku),
+                offerExternalId: order.lines.map((line) =>
+                    computeOfferExternalId(line.productVariant),
+                ),
                 productActive: true,
                 offerActive: true,
             },
@@ -93,7 +102,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
         const productsToCreate = order.lines.filter(
             (line) =>
-                offers.findIndex((offer) => offer.externalId === line.productVariant.sku) === -1,
+                offers.findIndex(
+                    (offer) => offer.externalId === computeOfferExternalId(line.productVariant),
+                ) === -1,
         );
 
         const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
@@ -104,7 +115,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
             const { addedProducts } = await this.retailcrmApi.ProductsBatchCreate(
                 productsToCreate.map((line) => ({
-                    externalId: line.productVariant.product.slug,
+                    externalId: computeProductExternalId(line.productVariant),
                     name: `[ВРЕМЕННО] ${line.productVariant.sku} / ${line.productVariant.product.name} / ${line.productVariant.name}`,
                     catalogId,
                 })),
@@ -119,7 +130,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
             for (const product of products) {
                 const orderLine = productsToCreate.find(
-                    (line) => line.productVariant.product.slug === product.externalId,
+                    (line) => computeProductExternalId(line.productVariant) === product.externalId,
                 );
                 if (orderLine) {
                     createdProductsMap.set(orderLine.productVariant.sku, product.offers[0].id);
@@ -141,7 +152,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                           id: createdProductsMap.get(line.productVariant.sku) as number,
                       }
                     : {
-                          externalId: line.productVariant.sku,
+                          externalId: computeOfferExternalId(line.productVariant),
                       },
                 comment: order.shippingAddress.streetLine2,
             })),
@@ -162,4 +173,23 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                 : [],
         });
     }
+}
+
+function computeOfferExternalId(variant: ProductVariant): string {
+    const brand = findBrandCollection(variant.collections);
+    return `${brand?.slug}-${variant.sku}`;
+}
+
+function computeProductExternalId(variant: ProductVariant): string {
+    const brand = findBrandCollection(variant.collections);
+    return `${brand?.slug}-${variant.product.slug}`;
+}
+
+function findBrandCollection(collections: Collection[]): Collection | null {
+    for (const collection of collections) {
+        if (collection.slug !== 'brand' && collection.parent.slug === 'brand') {
+            return collection;
+        }
+    }
+    return null;
 }
