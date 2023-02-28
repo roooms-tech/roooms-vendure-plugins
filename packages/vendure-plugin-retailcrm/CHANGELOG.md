@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.1
+
+### Patch Changes
+
+-   c32999f: Update external ids
+
 ## 2.0.0
 
 ### Major Changes
