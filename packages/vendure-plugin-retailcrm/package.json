@@ -9,8 +9,7 @@
     "build": "package-builder"
   },
   "dependencies": {
-    "@roooms-tech/retailcrm-api": "^0.2.0",
-    "tslib": "~2.5.0"
+    "@roooms-tech/retailcrm-api": "^0.2.0"
   },
   "devDependencies": {
     "@nestjs/common": "^8.4.7",

@@ -5,7 +5,7 @@
     "lib": ["es2021"],
     "allowJs": false,
     "downlevelIteration": false,
-    "importHelpers": true,
+    "importHelpers": false,
     "isolatedModules": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
