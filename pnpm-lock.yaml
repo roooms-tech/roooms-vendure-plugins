@@ -22,9 +22,6 @@ importers:
       '@roooms-tech/retailcrm-api':
         specifier: ^0.2.0
         version: 0.2.0
-      tslib:
-        specifier: ~2.5.0
-        version: 2.5.0
     devDependencies:
       '@nestjs/common':
         specifier: ^8.4.7
@@ -5046,6 +5043,7 @@ packages:
 
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+    dev: true
 
   /tsscmp@1.0.6:
     resolution: {integrity: sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==}
