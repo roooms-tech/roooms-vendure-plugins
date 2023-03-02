@@ -1,5 +1,12 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.2
+
+### Patch Changes
+
+-   392feb3: Only keep cjs build
+-   cfe29e1: Remove dependency on tslib
+
 ## 2.0.1
 
 ### Patch Changes
