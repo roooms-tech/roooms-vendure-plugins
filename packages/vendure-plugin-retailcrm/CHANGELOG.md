@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.3
+
+### Patch Changes
+
+-   f0dfc5c: Fix publishing folder
+
 ## 2.0.2
 
 ### Patch Changes
