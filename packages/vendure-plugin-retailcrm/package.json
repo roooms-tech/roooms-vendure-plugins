@@ -16,7 +16,7 @@
     "@vendure/core": "~2.0.0-next.28"
   },
   "files": [
-    "lib",
+    "dist",
     "README.md",
     "CHANGELOG.md"
   ],
