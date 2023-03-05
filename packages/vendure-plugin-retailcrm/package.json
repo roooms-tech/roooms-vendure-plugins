@@ -3,7 +3,12 @@
   "version": "2.0.3",
   "description": "RetailCRM integration for Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
-  "main": "./dist/plugin.js",
+  "exports": {
+    ".": {
+      "import": "./dist/plugin.js",
+      "require": "./dist/plugin.cjs"
+    }
+  },
   "types": "./dist/plugin.d.ts",
   "scripts": {
     "build": "package-builder"
