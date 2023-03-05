@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.4
+
+### Patch Changes
+
+-   e26d3f5: Use "exports" again
+
 ## 2.0.3
 
 ### Patch Changes
