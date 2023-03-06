@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "es2020",
+    "module": "commonjs",
     "lib": ["es2021"],
     "allowJs": false,
     "downlevelIteration": false,
