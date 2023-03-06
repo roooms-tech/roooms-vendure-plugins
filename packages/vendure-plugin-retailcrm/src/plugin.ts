@@ -37,15 +37,15 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             typeof RetailCRMPlugin.options.apiKey !== 'string'
         ) {
             throw new Error(
-                `Please specify accountName and apiKey with RetailCRM.init() in your Vendure config.`,
+                `Please specify accountName and apiKey with RetailCRMPlugin.init() in your Vendure config.`,
             );
         }
 
         this.retailcrmApi = createRetailcrmApi(RetailCRMPlugin.options);
     }
 
-    onApplicationBootstrap(): void {
-        Logger.info(`Setting action for events for RetailCRM integration`, this.loggerCtx);
+    onApplicationBootstrap() {
+        Logger.info(`Setting action for events for RetailCRMPlugin integration`, this.loggerCtx);
 
         this.eventBus
             .ofType(OrderStateTransitionEvent)
