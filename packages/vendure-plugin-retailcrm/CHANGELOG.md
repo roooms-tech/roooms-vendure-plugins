@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.6
+
+### Patch Changes
+
+-   6f6cbe2: cjs
+
 ## 2.0.5
 
 ### Patch Changes
