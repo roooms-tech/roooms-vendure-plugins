@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.0.5
+
+### Patch Changes
+
+-   b827833: Build using tsc to have decorator metadata
+
 ## 2.0.4
 
 ### Patch Changes
