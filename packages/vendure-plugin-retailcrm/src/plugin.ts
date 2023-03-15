@@ -92,20 +92,19 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         const { offers } = await this.retailcrmApi.Inventories({
             limit: 250,
             filter: {
-                offerExternalId: order.lines.map((line) =>
-                    computeOfferExternalId(line.productVariant),
-                ),
+                offerExternalId: order.lines.map((line) => {
+                    console.log(line.productVariant);
+                    return computeOfferExternalId(line.productVariant);
+                }),
                 productActive: true,
                 offerActive: true,
             },
         });
 
-        const productsToCreate = order.lines.filter(
-            (line) =>
-                offers.findIndex(
-                    (offer) => offer.externalId === computeOfferExternalId(line.productVariant),
-                ) === -1,
-        );
+        const productsToCreate = order.lines.filter((line) => {
+            const offerExternalId = computeOfferExternalId(line.productVariant);
+            return offers.findIndex((offer) => offer.externalId === offerExternalId) === -1;
+        });
 
         const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
 
