@@ -93,7 +93,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             limit: 250,
             filter: {
                 offerExternalId: order.lines.map((line) => {
-                    console.log(line.productVariant);
+                    Logger.debug(JSON.stringify(line.productVariant), this.loggerCtx)
                     return computeOfferExternalId(line.productVariant);
                 }),
                 productActive: true,
