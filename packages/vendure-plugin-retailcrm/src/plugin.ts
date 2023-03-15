@@ -91,7 +91,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         const { offers } = await this.retailcrmApi.Inventories({
             limit: 250,
             filter: {
-                offerExternalId: order.lines.map((line) => computeOfferExternalId(line.productVariant)),
+                offerExternalId: order.lines.map((line) =>
+                    computeOfferExternalId(line.productVariant),
+                ),
                 productActive: true,
                 offerActive: true,
             },
@@ -133,6 +135,44 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             }
         }
 
+        Logger.debug(
+            JSON.stringify({
+                externalId: String(order.code),
+                // status: order.state,
+                shipped: false,
+                customer: { externalId: String(order.customer.id) },
+                items: order.lines.map((line) => ({
+                    productName: line.productVariant.name,
+                    initialPrice: line.productVariant.price,
+                    quantity: line.quantity,
+                    offer: createdProductsMap.has(line.productVariant.sku)
+                        ? {
+                              id: createdProductsMap.get(line.productVariant.sku) as number,
+                          }
+                        : {
+                              externalId: computeOfferExternalId(line.productVariant),
+                          },
+                    comment: order.shippingAddress.streetLine2,
+                })),
+                delivery: {
+                    code: order.shippingLines[0]?.shippingMethod?.code as string,
+                    address: {
+                        text: order.shippingAddress.streetLine1 || '',
+                    },
+                },
+                payments: order.payments[0]
+                    ? [
+                          {
+                              amount: order.payments[0].amount / 100,
+                              type: order.payments[0].method,
+                              status: 'not-paid',
+                          },
+                      ]
+                    : [],
+            }),
+            this.loggerCtx,
+        );
+
         await this.retailcrmApi.OrderCreate({
             externalId: String(order.code),
             // status: order.state,
@@ -171,15 +211,15 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 }
 
 interface ProductVariantCustomFields {
-    brand: string
+    brand: string;
 }
 
 function computeOfferExternalId(variant: ProductVariant): string {
-    const brand = (variant.customFields as ProductVariantCustomFields).brand;
+    const { brand } = variant.customFields as ProductVariantCustomFields;
     return `${brand}-${variant.sku}`.toLowerCase();
 }
 
 function computeProductExternalId(variant: ProductVariant): string {
-    const brand = (variant.customFields as ProductVariantCustomFields).brand;
+    const { brand } = variant.customFields as ProductVariantCustomFields;
     return `${brand}-${variant.product.slug}`.toLowerCase();
 }
