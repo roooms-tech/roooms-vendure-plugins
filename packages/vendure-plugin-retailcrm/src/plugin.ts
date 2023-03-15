@@ -1,10 +1,12 @@
 import {
     VendurePlugin,
+    PluginCommonModule,
     EventBus,
     Logger,
     OrderStateTransitionEvent,
-    PluginCommonModule,
     Type,
+    CollectionService,
+    Collection,
     ProductVariant,
 } from '@vendure/core';
 import { OnApplicationBootstrap } from '@nestjs/common';
@@ -29,7 +31,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
     private loggerCtx = 'RetailCRMPlugin';
     private retailcrmApi: RetailcrmApi;
 
-    constructor(private eventBus: EventBus) {
+    constructor(private collectionService: CollectionService, private eventBus: EventBus) {
         if (
             !RetailCRMPlugin.options ||
             typeof RetailCRMPlugin.options.accountName !== 'string' ||
@@ -66,7 +68,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             });
     }
 
-    private async createOrder({ order }: OrderStateTransitionEvent): Promise<void> {
+    private async createOrder({ order, ctx }: OrderStateTransitionEvent): Promise<void> {
         if (!order.customer) {
             throw new Error('order.customer is undefined!');
         }
@@ -87,6 +89,16 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                 throw err;
             }
         }
+
+        await Promise.all(
+            order.lines.map((line) =>
+                this.collectionService
+                    .getCollectionsByProductId(ctx, line.productVariant.productId, true)
+                    .then((collections) => {
+                        line.productVariant.collections = collections;
+                    }),
+            ),
+        );
 
         const { offers } = await this.retailcrmApi.Inventories({
             limit: 250,
@@ -180,7 +192,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             customer: { externalId: String(order.customer.id) },
             items: order.lines.map((line) => ({
                 productName: line.productVariant.name,
-                initialPrice: line.productVariant.price,
+                initialPrice: Math.ceil(line.productVariant.priceWithTax / 100),
                 quantity: line.quantity,
                 offer: createdProductsMap.has(line.productVariant.sku)
                     ? {
@@ -210,16 +222,21 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
     }
 }
 
-interface ProductVariantCustomFields {
-    brand: string;
-}
-
 function computeOfferExternalId(variant: ProductVariant): string {
-    const { brand } = variant.customFields as ProductVariantCustomFields;
-    return `${brand}-${variant.sku}`.toLowerCase();
+    const brand = findBrandCollection(variant.collections);
+    return `${brand?.slug}-${variant.sku}`;
 }
 
 function computeProductExternalId(variant: ProductVariant): string {
-    const { brand } = variant.customFields as ProductVariantCustomFields;
-    return `${brand}-${variant.product.slug}`.toLowerCase();
+    const brand = findBrandCollection(variant.collections);
+    return `${brand?.slug}-${variant.product.slug}`;
+}
+
+function findBrandCollection(collections: Collection[]): Collection | null {
+    for (const collection of collections) {
+        if (collection.slug !== 'brand' && collection.parent.slug === 'brand') {
+            return collection;
+        }
+    }
+    return null;
 }
