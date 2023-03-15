@@ -96,6 +96,8 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                     .getCollectionsByProductId(ctx, line.productVariant.productId, true)
                     .then((collections) => {
                         line.productVariant.collections = collections;
+
+                        Logger.debug(JSON.stringify(collections), this.loggerCtx);
                     }),
             ),
         );
@@ -146,44 +148,6 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                 }
             }
         }
-
-        Logger.debug(
-            JSON.stringify({
-                externalId: String(order.code),
-                // status: order.state,
-                shipped: false,
-                customer: { externalId: String(order.customer.id) },
-                items: order.lines.map((line) => ({
-                    productName: line.productVariant.name,
-                    initialPrice: line.productVariant.price,
-                    quantity: line.quantity,
-                    offer: createdProductsMap.has(line.productVariant.sku)
-                        ? {
-                              id: createdProductsMap.get(line.productVariant.sku) as number,
-                          }
-                        : {
-                              externalId: computeOfferExternalId(line.productVariant),
-                          },
-                    comment: order.shippingAddress.streetLine2,
-                })),
-                delivery: {
-                    code: order.shippingLines[0]?.shippingMethod?.code as string,
-                    address: {
-                        text: order.shippingAddress.streetLine1 || '',
-                    },
-                },
-                payments: order.payments[0]
-                    ? [
-                          {
-                              amount: order.payments[0].amount / 100,
-                              type: order.payments[0].method,
-                              status: 'not-paid',
-                          },
-                      ]
-                    : [],
-            }),
-            this.loggerCtx,
-        );
 
         await this.retailcrmApi.OrderCreate({
             externalId: String(order.code),
