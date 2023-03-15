@@ -5,7 +5,6 @@ import {
     OrderStateTransitionEvent,
     PluginCommonModule,
     Type,
-    Collection,
     ProductVariant,
 } from '@vendure/core';
 import { OnApplicationBootstrap } from '@nestjs/common';
@@ -87,14 +86,6 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             } else {
                 throw err;
             }
-        }
-
-        order.lines.map((line) => {
-            Logger.debug(JSON.stringify(line.productVariant), this.loggerCtx);
-        })
-
-        if (1) {
-            return
         }
 
         const { offers } = await this.retailcrmApi.Inventories({
@@ -179,21 +170,16 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
     }
 }
 
+interface ProductVariantCustomFields {
+    brand: string
+}
+
 function computeOfferExternalId(variant: ProductVariant): string {
-    const brand = findBrandCollection(variant.collections);
-    return `${brand?.slug}-${variant.sku}`;
+    const brand = (variant.customFields as ProductVariantCustomFields).brand;
+    return `${brand}-${variant.sku}`.toLowerCase();
 }
 
 function computeProductExternalId(variant: ProductVariant): string {
-    const brand = findBrandCollection(variant.collections);
-    return `${brand?.slug}-${variant.product.slug}`;
-}
-
-function findBrandCollection(collections: Collection[]): Collection | null {
-    for (const collection of collections) {
-        if (collection.slug !== 'brand' && collection.parent.slug === 'brand') {
-            return collection;
-        }
-    }
-    return null;
+    const brand = (variant.customFields as ProductVariantCustomFields).brand;
+    return `${brand}-${variant.product.slug}`.toLowerCase();
 }
