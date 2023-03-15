@@ -102,7 +102,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                                 this.collectionService
                                     .getParent(ctx, collection.id)
                                     .then((parent) => {
-                                        if (parent) {
+                                        if (parent && !parent.isRoot) {
                                             collection.parent = parent;
                                         }
                                     }),
@@ -129,6 +129,8 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         });
 
         const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
+
+        Logger.debug(JSON.stringify(productsToCreate), 'RetailCRMPlugin');
 
         if (productsToCreate.length > 0) {
             const { sites } = await this.retailcrmApi.Sites();
@@ -203,14 +205,15 @@ function computeOfferExternalId(variant: ProductVariant): string {
 
 function computeProductExternalId(variant: ProductVariant): string {
     const brand = findBrandCollection(variant.collections);
+
+    Logger.debug(JSON.stringify({ brand }), 'RetailCRMPlugin');
+
     return `${brand?.slug}-${variant.product.slug}`;
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
-    Logger.debug(JSON.stringify(collections), 'RetailCRMPlugin');
-
     for (const collection of collections) {
-        if (collection.slug !== 'brand' && collection.parent.slug === 'brand') {
+        if (collection.slug !== 'brand' && collection.parent && collection.parent.slug === 'brand') {
             return collection;
         }
     }
