@@ -94,10 +94,20 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             order.lines.map((line) =>
                 this.collectionService
                     .getCollectionsByProductId(ctx, line.productVariant.productId, true)
-                    .then((collections) => {
+                    .then((collections: Collection[]) => {
                         line.productVariant.collections = collections;
 
-                        Logger.debug(JSON.stringify(collections), this.loggerCtx);
+                        return Promise.all(
+                            collections.map((collection) =>
+                                this.collectionService
+                                    .getParent(ctx, collection.id)
+                                    .then((parent) => {
+                                        if (parent) {
+                                            collection.parent = parent;
+                                        }
+                                    }),
+                            ),
+                        );
                     }),
             ),
         );
@@ -197,6 +207,8 @@ function computeProductExternalId(variant: ProductVariant): string {
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
+    Logger.debug(JSON.stringify(collections), 'RetailCRMPlugin');
+
     for (const collection of collections) {
         if (collection.slug !== 'brand' && collection.parent.slug === 'brand') {
             return collection;
