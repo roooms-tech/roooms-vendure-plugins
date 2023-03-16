@@ -17,13 +17,17 @@ import {
     RetailcrmError,
 } from '@roooms-tech/retailcrm-api';
 
+export interface RetailCRMPluginOptions extends Omit<RetailcrmApiOptions, 'logger'> {
+    logRequests?: boolean;
+}
+
 @VendurePlugin({
     imports: [PluginCommonModule],
 })
 export class RetailCRMPlugin implements OnApplicationBootstrap {
-    private static options: RetailcrmApiOptions;
+    private static options: RetailCRMPluginOptions;
 
-    static init(options: RetailcrmApiOptions): Type<RetailCRMPlugin> {
+    static init(options: RetailCRMPluginOptions): Type<RetailCRMPlugin> {
         this.options = options;
         return RetailCRMPlugin;
     }
@@ -42,7 +46,14 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             );
         }
 
-        this.retailcrmApi = createRetailcrmApi(RetailCRMPlugin.options);
+        this.retailcrmApi = createRetailcrmApi({
+            ...RetailCRMPlugin.options,
+            logger: RetailCRMPlugin.options.logRequests
+                ? ({ path, body }) => {
+                      Logger.debug(`${path} ${body}`, this.loggerCtx);
+                  }
+                : undefined,
+        });
     }
 
     onApplicationBootstrap() {
@@ -205,15 +216,16 @@ function computeOfferExternalId(variant: ProductVariant): string {
 
 function computeProductExternalId(variant: ProductVariant): string {
     const brand = findBrandCollection(variant.collections);
-
-    Logger.debug(JSON.stringify({ brand }), 'RetailCRMPlugin');
-
     return `${brand?.slug}-${variant.product.slug}`;
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
     for (const collection of collections) {
-        if (collection.slug !== 'brand' && collection.parent && collection.parent.slug === 'brand') {
+        if (
+            collection.slug !== 'brand' &&
+            collection.parent &&
+            collection.parent.slug === 'brand'
+        ) {
             return collection;
         }
     }
