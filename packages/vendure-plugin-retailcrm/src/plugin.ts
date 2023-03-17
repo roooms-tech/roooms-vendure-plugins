@@ -218,7 +218,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
 function computeOfferExternalId(variant: ProductVariant): string {
     const brand = findBrandCollection(variant.collections);
-    return `${brand?.slug}-${variant.sku}`;
+    return `${brand?.slug}-${variant.sku}`.toLowerCase();
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
