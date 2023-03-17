@@ -143,15 +143,13 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
         const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
 
-        Logger.debug('productsToCreate: ' + JSON.stringify(productsToCreate), 'RetailCRMPlugin');
-
         if (productsToCreate.length > 0) {
             const { sites } = await this.retailcrmApi.Sites();
             const catalogId = Number(Object.values(sites)[0]?.catalogId);
 
             const { addedProducts } = await this.retailcrmApi.ProductsBatchCreate(
                 productsToCreate.map((line) => ({
-                    externalId: computeProductExternalId(line.productVariant),
+                    externalId: computeTemporaryProductExternalId(line.productVariant),
                     name: `[ВРЕМЕННО] ${line.productVariant.sku} / ${line.productVariant.product.name} / ${line.productVariant.name}`,
                     catalogId,
                 })),
@@ -166,7 +164,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
             for (const product of products) {
                 const orderLine = productsToCreate.find(
-                    (line) => computeProductExternalId(line.productVariant) === product.externalId,
+                    (line) =>
+                        computeTemporaryProductExternalId(line.productVariant) ===
+                        product.externalId,
                 );
                 if (orderLine) {
                     createdProductsMap.set(orderLine.productVariant.sku, product.offers[0].id);
@@ -216,9 +216,9 @@ function computeOfferExternalId(variant: ProductVariant): string {
     return `${brand?.slug}-${variant.sku}`;
 }
 
-function computeProductExternalId(variant: ProductVariant): string {
+function computeTemporaryProductExternalId(variant: ProductVariant): string {
     const brand = findBrandCollection(variant.collections);
-    return `${brand?.slug}-${variant.product.slug}`;
+    return `${brand?.slug}-${variant.productId}`.toLowerCase();
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
