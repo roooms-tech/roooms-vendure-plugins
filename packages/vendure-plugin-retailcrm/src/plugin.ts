@@ -134,6 +134,8 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             },
         });
 
+        Logger.debug('offers: ' + JSON.stringify(offers), 'RetailCRMPlugin');
+
         const productsToCreate = order.lines.filter((line) => {
             const offerExternalId = computeOfferExternalId(line.productVariant);
             return offers.findIndex((offer) => offer.externalId === offerExternalId) === -1;
@@ -141,7 +143,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
         const createdProductsMap = new Map<string /* sku */, number /* offerId */>();
 
-        Logger.debug(JSON.stringify(productsToCreate), 'RetailCRMPlugin');
+        Logger.debug('productsToCreate: ' + JSON.stringify(productsToCreate), 'RetailCRMPlugin');
 
         if (productsToCreate.length > 0) {
             const { sites } = await this.retailcrmApi.Sites();

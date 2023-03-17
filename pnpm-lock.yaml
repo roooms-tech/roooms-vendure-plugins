@@ -17,8 +17,8 @@ importers:
   packages/vendure-plugin-retailcrm:
     dependencies:
       '@roooms-tech/retailcrm-api':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
     devDependencies:
       '@nestjs/common':
         specifier: ^8.4.7
@@ -957,8 +957,8 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: true
 
-  /@roooms-tech/retailcrm-api@0.3.0:
-    resolution: {integrity: sha512-UFLKX5u86S4fa1P/1eLtvU3vEaEHDQ0KvGmkgwN02YAeYQevwO34ETTVb2DK42L6aGHwedUkFAEn/KawxX5Ahg==, tarball: download/@roooms-tech/retailcrm-api/0.3.0/9767a96776b06c349a17f56b07aa121694390366}
+  /@roooms-tech/retailcrm-api@0.3.1:
+    resolution: {integrity: sha512-GcnfBpygZ2e5FBBSh090qsV/oQmsSvtzS0T80rt2McPA5iWDKS1k0UdRPZzZKDPougR/RpzhSzx6JySuqnobCQ==, tarball: download/@roooms-tech/retailcrm-api/0.3.1/a83d10b7fd0cb6c1425024c942d6cef85fa59e3e}
     dependencies:
       type-fest: 3.6.1
       undici: 5.20.0
