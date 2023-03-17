@@ -124,7 +124,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         );
 
         const { offers } = await this.retailcrmApi.Inventories({
-            limit: 250,
+            limit: 100,
             filter: {
                 offerExternalId: order.lines.map((line) =>
                     computeOfferExternalId(line.productVariant),
@@ -159,7 +159,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             );
 
             const { products } = await this.retailcrmApi.Products({
-                limit: 250,
+                limit: 100,
                 filter: {
                     ids: addedProducts,
                 },
