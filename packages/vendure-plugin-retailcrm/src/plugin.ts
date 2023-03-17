@@ -148,11 +148,14 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             const catalogId = Number(Object.values(sites)[0]?.catalogId);
 
             const { addedProducts } = await this.retailcrmApi.ProductsBatchCreate(
-                productsToCreate.map((line) => ({
-                    externalId: computeTemporaryProductExternalId(line.productVariant),
-                    name: `[ВРЕМЕННО] ${line.productVariant.sku} / ${line.productVariant.product.name} / ${line.productVariant.name}`,
-                    catalogId,
-                })),
+                productsToCreate.map((line) => {
+                    const brand = findBrandCollection(line.productVariant.collections);
+                    return {
+                        externalId: `${brand?.slug}-${line.productVariant.productId}`.toLowerCase(),
+                        name: `[ВРЕМЕННО] ${brand?.name} / ${line.productVariant.sku}`,
+                        catalogId,
+                    };
+                }),
             );
 
             const { products } = await this.retailcrmApi.Products({
@@ -163,11 +166,13 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             });
 
             for (const product of products) {
-                const orderLine = productsToCreate.find(
-                    (line) =>
-                        computeTemporaryProductExternalId(line.productVariant) ===
-                        product.externalId,
-                );
+                const orderLine = productsToCreate.find((line) => {
+                    const brand = findBrandCollection(line.productVariant.collections);
+                    return (
+                        `${brand?.slug}-${line.productVariant.productId}`.toLowerCase() ===
+                        product.externalId
+                    );
+                });
                 if (orderLine) {
                     createdProductsMap.set(orderLine.productVariant.sku, product.offers[0].id);
                 }
@@ -214,11 +219,6 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 function computeOfferExternalId(variant: ProductVariant): string {
     const brand = findBrandCollection(variant.collections);
     return `${brand?.slug}-${variant.sku}`;
-}
-
-function computeTemporaryProductExternalId(variant: ProductVariant): string {
-    const brand = findBrandCollection(variant.collections);
-    return `${brand?.slug}-${variant.productId}`.toLowerCase();
 }
 
 function findBrandCollection(collections: Collection[]): Collection | null {
