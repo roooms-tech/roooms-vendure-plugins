@@ -123,6 +123,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             ),
         );
 
+        // TODO: support more than 100 product variants in orders
         const { offers } = await this.retailcrmApi.Inventories({
             limit: 100,
             filter: {
@@ -133,8 +134,6 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                 offerActive: true,
             },
         });
-
-        Logger.debug('offers: ' + JSON.stringify(offers), 'RetailCRMPlugin');
 
         const productsToCreate = order.lines.filter((line) => {
             const offerExternalId = computeOfferExternalId(line.productVariant);
@@ -150,8 +149,16 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             const { addedProducts } = await this.retailcrmApi.ProductsBatchCreate(
                 productsToCreate.map((line) => {
                     const brand = findBrandCollection(line.productVariant.collections);
+
+                    let date = new Date().toISOString();
+                    const matched = date.match(/^[\d-]{10}T[\d:]{5}/);
+                    if (matched) {
+                        date = matched[0];
+                    }
+
                     return {
-                        externalId: `${brand?.slug}-${line.productVariant.productId}`.toLowerCase(),
+                        externalId:
+                            `${brand?.slug}-${line.productVariant.productId}-${date}`.toLowerCase(),
                         name: `[ВРЕМЕННО] ${brand?.name} / ${line.productVariant.sku}`,
                         catalogId,
                     };
@@ -169,8 +176,10 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                 const orderLine = productsToCreate.find((line) => {
                     const brand = findBrandCollection(line.productVariant.collections);
                     return (
-                        `${brand?.slug}-${line.productVariant.productId}`.toLowerCase() ===
-                        product.externalId
+                        product.externalId &&
+                        product.externalId.startsWith(
+                            `${brand?.slug}-${line.productVariant.productId}`.toLowerCase(),
+                        )
                     );
                 });
                 if (orderLine) {
@@ -206,7 +215,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             payments: order.payments[0]
                 ? [
                       {
-                          amount: order.payments[0].amount / 100,
+                          amount: Math.ceil(order.payments[0].amount / 100),
                           type: order.payments[0].method,
                           status: 'not-paid',
                       },
