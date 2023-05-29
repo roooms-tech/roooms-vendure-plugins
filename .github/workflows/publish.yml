@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 18.13
+  NODE_VERSION: 18.16
 
 jobs:
   publish:
@@ -19,7 +19,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
           run_install: false
 
       - uses: actions/setup-node@v3
