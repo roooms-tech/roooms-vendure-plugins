@@ -1,6 +1,6 @@
 {
   "name": "@roooms-tech/vendure-plugin-retailcrm",
-  "version": "2.1.1-alpha.1",
+  "version": "2.1.1-alpha.2",
   "description": "RetailCRM integration for Vendure",
   "author": "Ruslan Ilin <ruslan@qwertylab.de>",
   "main": "./dist/plugin.js",
