@@ -84,8 +84,6 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             throw new Error('order.customer is undefined!');
         }
 
-        Logger.debug('customFields: ' + JSON.stringify(order.customFields), this.loggerCtx);
-
         try {
             await this.retailcrmApi.Customer(String(order.customer.id));
         } catch (err) {
@@ -190,6 +188,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             }
         }
 
+        const customFields = (order.customFields || {}) as Record<string, unknown>;
+        Logger.debug('roistat: ' + customFields.roistat, this.loggerCtx);
+
         await this.retailcrmApi.OrderCreate({
             externalId: String(order.code),
             // status: order.state,
@@ -223,6 +224,12 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
                       },
                   ]
                 : [],
+            customFields:
+                typeof customFields.roistat === 'string'
+                    ? {
+                          roistat: customFields.roistat,
+                      }
+                    : {},
         });
     }
 }

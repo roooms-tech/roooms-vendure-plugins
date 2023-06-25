@@ -34,8 +34,8 @@ importers:
   packages/vendure-plugin-retailcrm:
     dependencies:
       '@roooms-tech/retailcrm-api':
-        specifier: ^0.3.1
-        version: 0.3.1
+        specifier: ^0.4.0
+        version: 0.4.0
       tslib:
         specifier: ~2.5.3
         version: 2.5.3
@@ -989,11 +989,11 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: true
 
-  /@roooms-tech/retailcrm-api@0.3.1:
-    resolution: {integrity: sha512-GcnfBpygZ2e5FBBSh090qsV/oQmsSvtzS0T80rt2McPA5iWDKS1k0UdRPZzZKDPougR/RpzhSzx6JySuqnobCQ==, tarball: https://npm.pkg.github.com/download/@roooms-tech/retailcrm-api/0.3.1/a83d10b7fd0cb6c1425024c942d6cef85fa59e3e}
+  /@roooms-tech/retailcrm-api@0.4.0:
+    resolution: {integrity: sha512-ygRyPGzSlMwOJ9sCxelzq+Zzx+Mzoazeqq/pWvRdjM37Hne2nH8Ww1Cr6rOjHSnV456GR5aWC1QXyl4d2c/FeA==, tarball: https://npm.pkg.github.com/download/@roooms-tech/retailcrm-api/0.4.0/05e95fe0d48c90202810b18ee638e4edab3a4da4}
     dependencies:
-      type-fest: 3.6.1
-      undici: 5.20.0
+      type-fest: 3.12.0
+      undici: 5.22.1
     dev: false
 
   /@sqltools/formatter@1.2.5:
@@ -4250,8 +4250,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /type-fest@3.6.1:
-    resolution: {integrity: sha512-htXWckxlT6U4+ilVgweNliPqlsVSSucbxVexRYllyMVJDtf5rTjv6kF/s+qAd4QSL1BZcnJPEJavYBPQiWuZDA==}
+  /type-fest@3.12.0:
+    resolution: {integrity: sha512-qj9wWsnFvVEMUDbESiilKeXeHL7FwwiFcogfhfyjmvT968RXSvnl23f1JOClTHYItsi7o501C/7qVllscUP3oA==}
     engines: {node: '>=14.16'}
     dev: false
 
@@ -4362,9 +4362,9 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
-  /undici@5.20.0:
-    resolution: {integrity: sha512-J3j60dYzuo6Eevbawwp1sdg16k5Tf768bxYK4TUJRH7cBM4kFCbf3mOnM/0E3vQYXvpxITbbWmBafaDbxLDz3g==}
-    engines: {node: '>=12.18'}
+  /undici@5.22.1:
+    resolution: {integrity: sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==}
+    engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
     dev: false
