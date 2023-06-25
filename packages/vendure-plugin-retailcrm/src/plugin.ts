@@ -192,7 +192,9 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         Logger.debug('roistat: ' + customFields.roistat, this.loggerCtx);
 
         await this.retailcrmApi.OrderCreate({
-            externalId: String(order.code),
+            // @ts-expect-error
+            number: order.code,
+            externalId: order.code,
             // status: order.state,
             shipped: false,
             customer: { externalId: String(order.customer.id) },
