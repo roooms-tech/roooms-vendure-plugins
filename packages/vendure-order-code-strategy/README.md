@@ -9,7 +9,7 @@ import { ShortOrderCodeStrategy } from '@roooms-tech/vendure-order-code-strategy
 
 {
     orderOptions: {
-        orderCodeStrategy: ShortOrderCodeStrategy
+        orderCodeStrategy: new ShortOrderCodeStrategy()
     }
 }
 ```
