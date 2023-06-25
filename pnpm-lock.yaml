@@ -34,8 +34,8 @@ importers:
   packages/vendure-plugin-retailcrm:
     dependencies:
       '@roooms-tech/retailcrm-api':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
       tslib:
         specifier: ~2.5.3
         version: 2.5.3
@@ -989,8 +989,8 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: true
 
-  /@roooms-tech/retailcrm-api@0.4.0:
-    resolution: {integrity: sha512-ygRyPGzSlMwOJ9sCxelzq+Zzx+Mzoazeqq/pWvRdjM37Hne2nH8Ww1Cr6rOjHSnV456GR5aWC1QXyl4d2c/FeA==, tarball: https://npm.pkg.github.com/download/@roooms-tech/retailcrm-api/0.4.0/05e95fe0d48c90202810b18ee638e4edab3a4da4}
+  /@roooms-tech/retailcrm-api@0.5.0:
+    resolution: {integrity: sha512-7psOpnZou7LxJge9oZdWne8DwY52xwpOYZMZPTiGgiUlt+EteLJateEn70YPHwXaKkcUfMO53MVt0AXtSIG9WA==, tarball: https://npm.pkg.github.com/download/@roooms-tech/retailcrm-api/0.5.0/0019ebc54cd7e066747d0c90ca0f025c3831b85f}
     dependencies:
       type-fest: 3.12.0
       undici: 5.22.1

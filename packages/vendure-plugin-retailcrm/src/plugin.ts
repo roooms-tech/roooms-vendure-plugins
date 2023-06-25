@@ -189,10 +189,8 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         }
 
         const customFields = (order.customFields || {}) as Record<string, unknown>;
-        Logger.debug('roistat: ' + customFields.roistat, this.loggerCtx);
 
         await this.retailcrmApi.OrderCreate({
-            // @ts-expect-error
             number: order.code,
             externalId: order.code,
             // status: order.state,
