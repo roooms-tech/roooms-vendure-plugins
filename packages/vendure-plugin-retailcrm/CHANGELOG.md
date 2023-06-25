@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.2.0
+
+### Minor Changes
+
+-   c07e7c9: Support roistat custom field
+
 ## 2.1.0
 
 ### Minor Changes
