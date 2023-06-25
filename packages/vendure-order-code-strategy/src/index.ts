@@ -1,5 +1,5 @@
 import { type OrderCodeStrategy } from '@vendure/core';
-import { init } from '@paralleldrive/cuid2'
+import { init } from '@paralleldrive/cuid2';
 
 const createId = init({ length: 8 });
 
