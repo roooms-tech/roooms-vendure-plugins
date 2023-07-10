@@ -5,6 +5,7 @@ import {
     RequestContext,
     TransactionalConnection,
     InternalServerError,
+    Logger,
 } from '@vendure/core';
 import { customAlphabet } from 'nanoid';
 
@@ -16,17 +17,14 @@ function createId(prefix = 'R') {
 
 export class ShortOrderCodeStrategy implements OrderCodeStrategy {
     private connection: TransactionalConnection | undefined;
+    private loggerCtx = 'ShortOrderCodeStrategy';
 
     init(injector: Injector) {
         this.connection = injector.get(TransactionalConnection);
-
-        console.log('init', this.connection);
     }
 
     async generate(ctx: RequestContext): Promise<string> {
         let code = createId();
-
-        console.log('generate', this.connection);
 
         if (this.connection) {
             for (let i = 0; i++; ) {
@@ -41,6 +39,9 @@ export class ShortOrderCodeStrategy implements OrderCodeStrategy {
                 if (orderExists === 0) {
                     break;
                 }
+
+                Logger.info(`Generated an already existing code '${code}'`, this.loggerCtx);
+
                 code = createId();
             }
         }
