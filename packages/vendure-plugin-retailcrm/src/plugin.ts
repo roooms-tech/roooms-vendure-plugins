@@ -84,6 +84,8 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
             throw new Error('order.customer is undefined!');
         }
 
+        Logger.debug('customer: ' + JSON.stringify(order.customer));
+
         try {
             await this.retailcrmApi.Customer(String(order.customer.id));
         } catch (err) {
