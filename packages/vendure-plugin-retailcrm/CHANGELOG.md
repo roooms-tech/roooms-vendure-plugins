@@ -1,5 +1,12 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.2.1
+
+### Patch Changes
+
+-   Set customer info to order
+-   582098c: Upgrade deps
+
 ## 2.2.0
 
 ### Minor Changes
