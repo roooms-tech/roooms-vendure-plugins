@@ -23,6 +23,7 @@ export interface RetailCRMPluginOptions extends Omit<RetailcrmApiOptions, 'logge
 
 @VendurePlugin({
     imports: [PluginCommonModule],
+    compatibility: '^2.0.0',
 })
 export class RetailCRMPlugin implements OnApplicationBootstrap {
     private static options: RetailCRMPluginOptions;
@@ -193,7 +194,7 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
         await this.retailcrmApi.OrderCreate({
             number: order.code,
             externalId: order.code,
-            // status: order.state,
+            status: 'new-site',
             firstName: order.customer.firstName,
             lastName: order.customer.lastName,
             phone: order.customer.phoneNumber,
