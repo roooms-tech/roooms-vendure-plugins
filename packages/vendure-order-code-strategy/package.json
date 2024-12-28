@@ -1,6 +1,6 @@
 {
   "name": "@roooms-tech/vendure-order-code-strategy",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Custom OrderCodeStrategy for Vendure",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.4.0
+
+### Minor Changes
+
+-   58dc118: Support Vendure v3
+
 ## 2.3.0
 
 ### Minor Changes

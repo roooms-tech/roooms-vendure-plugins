@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-order-code-strategy
 
+## 2.2.0
+
+### Minor Changes
+
+-   58dc118: Support Vendure v3
+
 ## 2.1.0
 
 ### Minor Changes
