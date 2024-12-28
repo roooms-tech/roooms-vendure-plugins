@@ -23,7 +23,7 @@ export interface RetailCRMPluginOptions extends Omit<RetailcrmApiOptions, 'logge
 
 @VendurePlugin({
     imports: [PluginCommonModule],
-    compatibility: '^2.0.0',
+    compatibility: '^3.0.0',
 })
 export class RetailCRMPlugin implements OnApplicationBootstrap {
     private static options: RetailCRMPluginOptions;

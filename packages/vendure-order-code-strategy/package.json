@@ -8,11 +8,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "nanoid": "^3.3.6"
+    "nanoid": "^3.3.8"
   },
   "devDependencies": {
-    "@nestjs/common": "^9.4.3",
-    "@vendure/core": "~2.0"
+    "@vendure/core": "~3.1.1"
   },
   "files": [
     "dist",
