@@ -1,24 +1,20 @@
 # Rooom`s Vendure plugins
 
-## Релизы библиотек
+## Packages releases
 
-Для версионирования и паблиша пэкеджей используется
-[`changesets`](https://github.com/changesets/changesets). После внесения
-изменений в код необходимо обязательно добавить чейнджлог:
+For versioning and publishing the package, [`changesets`](https://github.com/changesets/changesets) is used. After the implementation of all needed changes, the following command should be executed to see the changes:
 
 ```sh
 pnpm changeset
 ```
 
-Перед подготовкой нового релиза надо выполнить команду:
+Then:
 
 ```sh
 pnpm changeset version
 ```
 
-> Внимание: пока в Changesets
-> [не исправлена проблема с форматированием файлов](https://github.com/changesets/changesets/issues/396)
-> может понадобиться прогонять команду `pnpm prettier`
+> Attention: In  Changesets [the problem with file formatting is not fixed](https://github.com/changesets/changesets/issues/396). 
+> Potentially, you will need to execute `pnpm prettier`
 
-Паблиш строго из CI из main ветки, новые пэкеджи опубликуются автоматически,
-если такой версии ещё нет в registry.
+You need to publish everything from the CI branch and main branch. New packages will be published automatically. 
