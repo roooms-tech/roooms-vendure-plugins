@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.4.1
+
+### Patch Changes
+
+-   Update to Vendure version 3.2.1
+
 ## 2.4.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-order-code-strategy
 
+## 2.2.1
+
+### Patch Changes
+
+-   Update to Vendure version 3.2.1
+
 ## 2.2.0
 
 ### Minor Changes
