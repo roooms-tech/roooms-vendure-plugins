@@ -1,5 +1,15 @@
 # @roooms-tech/vendure-order-code-strategy
 
+## 2.3.0
+
+### Minor Changes
+
+-   Sync version of packages
+
+### Patch Changes
+
+-   Syncronise versions of packages
+
 ## 2.2.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.5.0
+
+### Minor Changes
+
+-   Sync version of packages
+
+### Patch Changes
+
+-   Syncronise versions of packages
+
 ## 2.4.1
 
 ### Patch Changes
