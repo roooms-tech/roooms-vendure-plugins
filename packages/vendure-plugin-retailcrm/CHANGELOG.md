@@ -1,5 +1,11 @@
 # @roooms-tech/vendure-plugin-retailcrm
 
+## 2.5.1
+
+### Patch Changes
+
+-   Return logic back
+
 ## 2.5.0
 
 ### Minor Changes

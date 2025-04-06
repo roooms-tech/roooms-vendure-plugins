@@ -62,25 +62,20 @@ export class RetailCRMPlugin implements OnApplicationBootstrap {
 
         this.eventBus
             .ofType(OrderStateTransitionEvent)
-            .subscribe({
-                next: (event: OrderStateTransitionEvent) => {
-                    if (event.toState === 'PaymentSettled' || event.toState === 'PaymentAuthorized') {
-                        this.createOrder(event)
-                            .then(() => {
-                                Logger.info(`Successfully created order`, this.loggerCtx);
-                            })
-                            .catch((err: unknown) => {
-                                Logger.error(`Failed to create order`, this.loggerCtx, String(err));
-                            });
-                    } else {
-                        Logger.warn(
-                            `Caught event OrderStateTransitionEvent with state ${event.toState}`,
-                            this.loggerCtx,
-                        );
-                    }
-                },
-                error: (err: unknown) => {
-                    Logger.error(`Error in RetailCRMPlugin event subscription`, this.loggerCtx, String(err));
+            .subscribe((event: OrderStateTransitionEvent) => {
+                if (event.toState == 'PaymentSettled' || event.toState == 'PaymentAuthorized') {
+                    this.createOrder(event)
+                        .then(() => {
+                            Logger.info(`Successfully created order`, this.loggerCtx);
+                        })
+                        .catch((err: unknown) => {
+                            Logger.error(`Failed to create order`, this.loggerCtx, String(err));
+                        });
+                } else {
+                    Logger.warn(
+                        `Caught event OrderStateTransitionEvent with state ${event.toState}`,
+                        this.loggerCtx,
+                    );
                 }
             });
     }
